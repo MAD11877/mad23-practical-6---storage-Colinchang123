@@ -24,19 +24,19 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         Random random = new Random();
-        for(int i = 0; i < 20; i++){
-            UserList.List.add(new User("Name" + random.nextInt(), "Description" + random.nextInt(), random.nextInt(), random.nextBoolean()));
+
+        //DataHandler DB = new DataHandler(this, null, null, 1);
+        if (DataHandler.getInstance(this).hasUsers() == false) {
+            for (int i = 0; i < 20; i++) {
+                DataHandler.getInstance(this).addUser(new User("Name" + random.nextInt(), "Description" + random.nextInt(), random.nextInt(), random.nextBoolean()));
+            }
         }
 
-        DataHandler DB = new DataHandler(this, null, null, 1);
-        for (User user : UserList.List) {
-            DB.addUser(user);
-        }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(ListActivity.this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new Adapter(this, UserList.List));
+        recyclerView.setAdapter(new Adapter(this, DataHandler.getInstance(this).getUsers()));
 
         /*        imageView.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){

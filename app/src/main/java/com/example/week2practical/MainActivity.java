@@ -2,6 +2,7 @@ package com.example.week2practical;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
         int id = 0;
 
-        for (int i = 0; i < UserList.List.size(); i ++) {
-            if (UserList.List.get(i).name.equals(Name)) {
+        for (int i = 0; i < DataHandler.getInstance(this).getUsers().size(); i ++) {
+            if (DataHandler.getInstance(this).getUsers().get(i).name.equals(Name)) {
                 id = i;
             }
         }
-        User user = UserList.List.get(id);
+        User user = DataHandler.getInstance(this).getUsers().get(id);
 
         TextView intText = findViewById(R.id.textView);
         intText.setText(Name);
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
                     user.followed = false;
                     followButton.setText("Follow");
                     Toast.makeText(getApplicationContext(), "Unfollowed", Toast.LENGTH_SHORT).show();
+
+
+
                 }
                 else if(user.followed == false){
                     //User1.setFollowed(true);
@@ -65,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                     followButton.setText("Unfollow");
                     Toast.makeText(getApplicationContext(), "Followed", Toast.LENGTH_SHORT).show();
                 }
+
+                DataHandler.getInstance(MainActivity.this).updateUser(user);
 
             }
         });
