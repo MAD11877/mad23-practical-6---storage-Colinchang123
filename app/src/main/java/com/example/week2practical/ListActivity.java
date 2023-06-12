@@ -23,10 +23,14 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
         Random random = new Random();
         for(int i = 0; i < 20; i++){
             UserList.List.add(new User("Name" + random.nextInt(), "Description" + random.nextInt(), random.nextInt(), random.nextBoolean()));
+        }
+
+        DataHandler DB = new DataHandler(this, null, null, 1);
+        for (User user : UserList.List) {
+            DB.addUser(user);
         }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
